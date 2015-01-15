@@ -2,6 +2,8 @@ import sys
 
 import six
 
+import os
+
 from django.core.exceptions import ImproperlyConfigured
 
 from .utils import import_attribute
@@ -11,7 +13,7 @@ class AppConfOptions(object):
 
     def __init__(self, meta, prefix=None):
         self.prefix = prefix
-        self.holder_path = getattr(meta, 'holder', 'django.conf.settings')
+        self.holder_path = getattr(meta, 'holder', os.environ['DJANGO_SETTINGS_MODULE'])
         self.holder = import_attribute(self.holder_path)
         self.proxy = getattr(meta, 'proxy', False)
         self.required = getattr(meta, 'required', [])
